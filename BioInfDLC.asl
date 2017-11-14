@@ -126,7 +126,7 @@ split
 	// Burial at Sea Ep2
 	if(vars.bas == 2){
 		// Sally door Cutscene
-		if(timer.CurrentSplitIndex == 0 && current.cutsceneCount == 3)
+		if(timer.CurrentSplitIndex == 0 && current.cutsceneCount == 2)
 		{
 			current.cutsceneCount = 0;
 			return true;
