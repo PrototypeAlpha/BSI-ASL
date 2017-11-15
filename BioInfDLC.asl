@@ -15,12 +15,14 @@ start
 
 isLoading
 {
-	if(settings.SplitEnabled && timer.CurrentSplitIndex == 2 && current.loadingScreen == 20)
-		current.cutsceneCount = 0;
-	
-	if(settings.SplitEnabled && timer.CurrentSplitIndex == 4 && current.loadingScreen == 29)
-		current.cutsceneCount = 4;
-	
+	// Ensure cutscene counter is correct when reloading some checkpoints
+	if(settings.SplitEnabled){
+		if(timer.CurrentSplitIndex == 6 && current.loadingScreen == 17)
+			current.cutsceneCount = 0;
+		
+		if((timer.CurrentSplitIndex == 2 && current.loadingScreen == 20) || (timer.CurrentSplitIndex == 4 && current.loadingScreen == 29) || (timer.CurrentSplitIndex == 7 && current.loadingScreen == 35))
+			current.cutsceneCount = 4;
+	}
     /*
 	This is the variable used to track when map data is being loaded.
     This includes load screens and OOB load zones.
@@ -138,7 +140,7 @@ split
 			return true;
 		}
 		// Lutece Device
-		if(timer.CurrentSplitIndex == 2 && current.cutsceneCount == 4)
+		if(timer.CurrentSplitIndex == 2 && current.cutsceneCount == 8)
 		{
 			current.cutsceneCount = 0;
 			return true;
@@ -168,7 +170,7 @@ split
 			return true;
 		}
 		// Run End
-		if(timer.CurrentSplitIndex == 7 && current.cutsceneCount == 2)
+		if(timer.CurrentSplitIndex == 7 && current.cutsceneCount == 5)
 		{
 			current.cutsceneCount = 0;
 			return true;
@@ -179,7 +181,10 @@ split
 update
 {
 	// Check if timer is running, autosplitting is enabled, and split isn't a setup one
-	if(timer.CurrentSplitIndex != -1 && settings.SplitEnabled && !timer.CurrentSplit.Name.ToLower().Contains("setup")){
+	if(timer.CurrentSplitIndex != -1 && timer.CurrentSplitIndex < timer.Run.Count && settings.SplitEnabled && !timer.CurrentSplit.Name.ToLower().Contains("setup")){
+		if(vars.bas == 2 && (timer.CurrentSplitIndex == 3 || timer.CurrentSplitIndex == 5))
+			return;
+		
 		print("Cutscene count: "+current.cutsceneCount.ToString());
 		// Update cutsceneCount when entering a cutscene
 		if((current.collision == 114 || current.collision == 98) && (old.collision == 118 || old.collision == 102)){
