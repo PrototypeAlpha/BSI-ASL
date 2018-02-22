@@ -17,17 +17,24 @@ start
 
 isLoading
 {
-	if(settings.SplitEnabled && settings["enable"] && timer.CurrentSplitIndex == 0 && current.cutsceneCount > 0 && current.isMapLoading == -1 && old.isMapLoading > 0.000000000)
-		current.cutsceneCount = 0;
+	if(current.loadingScreen != old.loadingScreen && current.loadingScreen != 0)
+		print("[BSI-ASL] Loading Screen ID: "+current.loadingScreen.ToString());
+	
+	if(settings.SplitEnabled && settings["enable"] && timer.CurrentSplitIndex == 0 && current.cutsceneCount > 8 && current.isMapLoading == -1 && old.isMapLoading > 0.000000000)
+		current.cutsceneCount = 8;
 	
 	if(settings.SplitEnabled && settings["enable"] && timer.CurrentSplitIndex == 0 && current.loadingScreen == 14)
 		current.cutsceneCount = 4;
 	
 	if(settings.SplitEnabled && settings["enable"] && timer.CurrentSplitIndex == 0 && current.loadingScreen == 15)
-		current.cutsceneCount = 9;
+		current.cutsceneCount = 8;
 	
-	if(settings.SplitEnabled && settings["enable"] && timer.CurrentSplitIndex == 17 && current.loadingScreen == 30)
+	if(settings.SplitEnabled && settings["enable"] && timer.CurrentSplitIndex == 17 && current.loadingScreen == 27)
+	{
 		current.cutsceneCount = 2;
+		if(current.cutsceneCount != old.cutsceneCount)
+			print("[BSI-ASL] Cutscene count: "+current.cutsceneCount.ToString());
+	}
 	
     //This is the variable used to track when map data is being loaded.
     //This includes load screens and OOB load zones.
@@ -64,7 +71,7 @@ split
 	if(settings["enable"])
 	{
 		//Baptised
-		if(settings["split1"] && timer.CurrentSplitIndex == 0 && current.cutsceneCount == 11)
+		if(settings["split1"] && timer.CurrentSplitIndex == 0 && current.cutsceneCount == 10)
 		{
 			current.cutsceneCount = 0;
 			return true;
@@ -75,12 +82,12 @@ split
 			return true;
 		}
 		//Order of the Raven
-		if(timer.CurrentSplitIndex == 2 && current.loadingScreen == 24)
+		if(timer.CurrentSplitIndex == 2 && current.loadingScreen == 15)
 		{
 			return true;
 		}
 		//Monument Island
-		if(timer.CurrentSplitIndex == 3 && current.loadingScreen == 17)
+		if(timer.CurrentSplitIndex == 3 && current.loadingScreen == 15)
 		{
 			return true;
 		}
@@ -90,27 +97,27 @@ split
 			return true;
 		}
 		//Soldiers Field
-		if(timer.CurrentSplitIndex == 5 && current.loadingScreen == 16)
+		if(timer.CurrentSplitIndex == 5 && current.loadingScreen == 15)
 		{
 			return true;
 		}
 		//Hall of Heroes
-		if(timer.CurrentSplitIndex == 6 && current.loadingScreen == 39)
+		if(timer.CurrentSplitIndex == 6 && current.loadingScreen == 31)
 		{
 			return true;
 		}
 		//Return to Soldiers Field
-		if(timer.CurrentSplitIndex == 7 && current.loadingScreen == 17)
+		if(timer.CurrentSplitIndex == 7 && current.loadingScreen == 14)
 		{
 			return true;
 		}
 		//Finkton Docks
-		if(timer.CurrentSplitIndex == 8 && current.loadingScreen == 8)
+		if(timer.CurrentSplitIndex == 8 && current.loadingScreen == 15)
 		{
 			return true;
 		}
 		//Finkton Proper
-		if(timer.CurrentSplitIndex == 9 && current.loadingScreen == 6)
+		if(timer.CurrentSplitIndex == 9 && current.loadingScreen == 12)
 		{
 			return true;
 		}
@@ -120,22 +127,22 @@ split
 			return true;
 		}
 		//Emporia
-		if(timer.CurrentSplitIndex == 11 && current.loadingScreen == 23)
+		if(timer.CurrentSplitIndex == 11 && current.loadingScreen == 17)
 		{
 			return true;
 		}
 		//Downtown Emporia
-		if(timer.CurrentSplitIndex == 12 && current.loadingScreen == 19)
+		if(timer.CurrentSplitIndex == 12 && current.loadingScreen == 15)
 		{
 			return true;
 		}
 		//Comstock House
-		if(timer.CurrentSplitIndex == 13 && current.loadingScreen == 20)
+		if(timer.CurrentSplitIndex == 13 && current.loadingScreen == 24)
 		{
 			return true;
 		}
 		//The Hand of the Prophet
-		if(timer.CurrentSplitIndex == 14 && current.loadingScreen == 20)
+		if(timer.CurrentSplitIndex == 14 && current.loadingScreen == 17)
 		{
 			return true;
 		}
@@ -152,7 +159,7 @@ split
 			return true;
 		}
 		//Smother
-		if(settings["split4"] && timer.CurrentSplitIndex == 17 && current.cutsceneCount == 17)
+		if(settings["split4"] && timer.CurrentSplitIndex == 17 && current.cutsceneCount == 18)
 		{
 			current.cutsceneCount = 0;
 			return true;
@@ -171,12 +178,12 @@ startup
 
 update
 {
-	if(((settings["split1"] && timer.CurrentSplitIndex == 0) || (settings["split2"] && timer.CurrentSplitIndex == 16) || (settings["split3"] && timer.CurrentSplitIndex == 17) || (settings["split4"] && timer.CurrentSplitIndex == 18)) && settings.SplitEnabled && settings["enable"]){
+	if(((settings["split1"] && timer.CurrentSplitIndex == 0) || (settings["split2"] && timer.CurrentSplitIndex == 15) || (settings["split3"] && timer.CurrentSplitIndex == 16) || (settings["split4"] && timer.CurrentSplitIndex == 17)) && settings.SplitEnabled && settings["enable"]){
 		
 		if(timer.CurrentSplitIndex == 0 && current.afterLogo == 0)
 			current.cutsceneCount = 0;
 		
-		if(timer.CurrentSplitIndex == 18 && current.cutsceneCount == 5 && current.isMapLoading == -1 && old.isMapLoading > 0.000000000 && !current.lighthouseGlitch)
+		if(timer.CurrentSplitIndex == 17 && current.cutsceneCount == 5 && current.isMapLoading == -1 && old.isMapLoading > 0.000000000 && !current.lighthouseGlitch)
 		{
 			print("[BSI-ASL] Lighthouse glitch detected");
 			current.lighthouseGlitch = true;
@@ -188,8 +195,6 @@ update
 			print("[BSI-ASL] Cutscene count: "+current.cutsceneCount.ToString());
 		}
 	}
-	if(current.isMapLoading > -1)
-		print("[BSI-ASL] isMapLoading: "+current.isMapLoading);
 }
 
 init
