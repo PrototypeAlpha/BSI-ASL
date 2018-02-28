@@ -12,7 +12,11 @@ start
 {
 	current.cutsceneCount = 0;
 	current.lighthouseGlitch = false;
-    return current.afterLogo == 1 && old.afterLogo == 0;
+	//Check if The Lighthouse map was loaded
+	if(old.isMapLoading > 0.00 && old.loadingScreen == 15)
+		current.autostart = true;
+	if(current.autostart)
+		return current.afterLogo == 1 && old.afterLogo == 0;
 }
 
 isLoading
@@ -202,6 +206,7 @@ init
     timer.IsGameTimePaused = false;
 	current.cutsceneCount = 0;
 	current.lighthouseGlitch = false;
+	current.autostart = false;
 }
 
 exit
