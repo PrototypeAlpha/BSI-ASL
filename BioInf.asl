@@ -4,11 +4,16 @@ state("BioshockInfinite")
     int overlaysPtr :       0x1415A30, 0x124;
     int overlaysCount :     0x1415A30, 0x128;
     int afterLogo :         0x135697C;
+	int loadingScreen :		0x137CF94, 0x3BC, 0x19C;
 }
 
 start
 {
-    return current.afterLogo == 1 && old.afterLogo == 0;
+    //Check if The Lighthouse map was loaded
+    if(old.isMapLoading > 0.00 && old.loadingScreen == 15)
+		current.autostart = true;
+	if(current.autostart)
+		return current.afterLogo == 1 && old.afterLogo == 0;
 }
 
 isLoading
@@ -46,6 +51,7 @@ isLoading
 init
 {
     timer.IsGameTimePaused = false;
+	current.autostart = false;
 }
 
 exit
