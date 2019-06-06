@@ -3,12 +3,12 @@ state("BioshockInfinite")
     float isMapLoading :    0x14154E8, 0x4;
     int overlaysPtr :       0x1415A30, 0x124;
     int overlaysCount :     0x1415A30, 0x128;
-	int loadingScreen :		0x137CF94, 0x3BC, 0x19C;
+    int loadingScreen :		0x137CF94, 0x3BC, 0x19C;
 }
 
 start
 {
-    return current.loadingScreen == 0 && (old.loadingScreen == 22 || old.loadingScreen == 27);
+    return current.loadingScreen == 0 && (old.loadingScreen == 22 || old.loadingScreen == 23 || old.loadingScreen == 27);
 }
 
 isLoading
