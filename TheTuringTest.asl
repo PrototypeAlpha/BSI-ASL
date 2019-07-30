@@ -1,13 +1,13 @@
 state("theturingtest")
 {
-	byte chapter:   0x2DB9060,0x110;
-	short sector:   0x2DB9060,0x114;
-	bool loading:   0x2DB9070,0x19;
-	bool stream:    0x2D5ADB0,0x70,0x268,0x238,0x4E0,0x558;
-	bool started: 0x2F5B8A0,0x6F8,0x370,0x69C;
-	float xSpeed:   0x2D89400,0x0,0x3E8,0xDC;
-	float ySpeed:   0x2D89400,0x0,0x3E8,0xE0;
-	float zSpeed:   0x2D89400,0x0,0x3E8,0xE4;
+	byte 	chapter		:0x2DB9060,0x110;
+	short 	sector		:0x2DB9060,0x114;
+	bool 	loading		:0x2DB9070,0x19;
+	bool 	stream		:0x2D5ADB0,0x70,0x268,0x238,0x4E0,0x558;
+	bool 	inProgress	:0x2F18AF8,0x40,0x20,0x69F;
+	float 	xSpeed		:0x2D89400,0x0,0x3E8,0xDC;
+	float 	ySpeed		:0x2D89400,0x0,0x3E8,0xE0;
+	float 	zSpeed		:0x2D89400,0x0,0x3E8,0xE4;
 }
 startup
 {
@@ -21,20 +21,20 @@ startup
 init
 {
 	version="1.3 DX11";
-	var splits=timer.Run.Count;
+	vars.splits=timer.Run.Count;
 	var message="";
-	if(splits<9||splits>72||!settings.SplitEnabled){
+	if(vars.splits<9||vars.splits>72||!settings.SplitEnabled){
 		settings.SplitEnabled=false;
 		message="Autosplitting is disabled.";
 	}
-	else if(splits==72){
+	else if(vars.splits==72){
 		vars.splitOnSector=true;
 		message="Will split on Sector change.";
 	}
 	else{message="Will split on Chapter change.";}
 	
-	print("[TheTuringTestASL] "+splits+" splits found. "+message);
-	MessageBox.Show(splits+" splits found.\n"+
+	print("[TheTuringTestASL] "+vars.splits+" splits found. "+message);
+	MessageBox.Show(vars.splits+" splits found.\n"+
 		message,"TheTuringTestASL | LiveSplit",
 		MessageBoxButtons.OK,MessageBoxIcon.Information);
 	
@@ -82,9 +82,6 @@ isLoading{
 reset{return current.chapter==0&&current.sector==-1&&current.loading;}
 split
 {
-	if(current.started != old.started)
-		print(""+current.started);
-	
 	if(vars.splitOnSector&&current.sector>old.sector){
 		//C26 OoB
 		if(old.sector==26&&current.sector>27&&current.sector<30){
@@ -104,10 +101,11 @@ split
 		//Normal Sectors
 		else{return current.sector>old.sector&&current.sector<1000;}
 	}
-	//else if(current.chapter==8&&!current.started&&old.started)
-	//{
-	//	return old.started;
-	//}
+	//Final Split
+	else if(current.chapter==8&&!current.inProgress&&old.inProgress)
+	{
+		return (current.inProgress != old.inProgress);
+	}
 	else{return current.chapter>old.chapter;}
 }
 exit{timer.IsGameTimePaused=true;}
