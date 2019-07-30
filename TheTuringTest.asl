@@ -1,12 +1,13 @@
 state("theturingtest")
 {
-	byte chapter: 0x2DB9060,0x110;
-	short sector: 0x2DB9060,0x114;
-	bool loading: 0x2DB9070,0x19;
-	bool stream:  0x2D5ADB0,0x70,0x268,0x238,0x4E0,0x558;
-	float xSpeed: "PhysX3PROFILE_x64.dll",0x284BF8,0x3C0,0x10,0x14C;
-	float ySpeed: "PhysX3PROFILE_x64.dll",0x284BF8,0x3C0,0x10,0x150;
-	float zSpeed: "PhysX3PROFILE_x64.dll",0x284BF8,0x3C0,0x10,0x154;
+	byte chapter:   0x2DB9060,0x110;
+	short sector:   0x2DB9060,0x114;
+	bool loading:   0x2DB9070,0x19;
+	bool stream:    0x2D5ADB0,0x70,0x268,0x238,0x4E0,0x558;
+	bool started: 0x2F5B8A0,0x6F8,0x370,0x69C;
+	float xSpeed:   0x2D89400,0x0,0x3E8,0xDC;
+	float ySpeed:   0x2D89400,0x0,0x3E8,0xE0;
+	float zSpeed:   0x2D89400,0x0,0x3E8,0xE4;
 }
 startup
 {
@@ -78,9 +79,12 @@ isLoading{
 	
 	return current.loading;
 }
-reset{return current.chapter== 0&&current.sector==-1&&current.loading;}
+reset{return current.chapter==0&&current.sector==-1&&current.loading;}
 split
 {
+	if(current.started != old.started)
+		print(""+current.started);
+	
 	if(vars.splitOnSector&&current.sector>old.sector){
 		//C26 OoB
 		if(old.sector==26&&current.sector>27&&current.sector<30){
@@ -100,6 +104,10 @@ split
 		//Normal Sectors
 		else{return current.sector>old.sector&&current.sector<1000;}
 	}
+	//else if(current.chapter==8&&!current.started&&old.started)
+	//{
+	//	return old.started;
+	//}
 	else{return current.chapter>old.chapter;}
 }
 exit{timer.IsGameTimePaused=true;}
