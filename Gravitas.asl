@@ -28,7 +28,7 @@ startup{settings.Add("loadRemoval", true, "Enable Load Removal");}
 init
 {
 	//Unpause timer if game is relaunched
-	timer.IsGameTimePaused=true;
+	timer.IsGameTimePaused=false;
 
 	//Get game version by checking pak file size
 	//1.4=???
