@@ -1,10 +1,8 @@
-//Blank state to avoid errors when starting and closing game
-state("Drop-Win64-Shipping"){}
 //We require a different pointer when running via Steam
 //Will only work with the latest version
 state("Drop-Win64-Shipping","1.3 Steam")
 {
-	bool load:0x1F90ED0,0x58,0x8,0x8,0x30,0x10;
+	bool load:0x2001F60,0xB8,0x8,0x328,0x30,0x10;
 }
 //When running via the exe instead of Steam
 state("Drop-Win64-Shipping","1.3")
@@ -24,10 +22,8 @@ state("Drop-Win64-Shipping","1.0")
 {
 	bool load:0x1FDEA30,0x10,0x48,0x318,0x30,0x10;
 }
-startup{settings.Add("loadRemoval", true, "Enable Load Removal");}
 init
 {
-	//Unpause timer if game is relaunched
 	timer.IsGameTimePaused=false;
 
 	//Get game version by checking pak file size
@@ -59,13 +55,7 @@ init
 	//Prevent timer from starting when opening the game
 	Thread.Sleep(5000);
 }
-exit
-{
-	//Pause timer if game crashes
-	timer.IsGameTimePaused=true;
-	//Set Livesplit to use blank state
-	version="";
-}
+exit{timer.IsGameTimePaused=true;}
 start{return !current.load&&old.load;}
-isLoading{return settings["loadRemoval"]&&current.load;}
+isLoading{return current.load;}
 //update{if(current.load!=old.load)print("Loading: "+current.load);}
