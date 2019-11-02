@@ -34,15 +34,15 @@ init
 	
 	switch (lang)
 	{
-		case "english": 	break;
-		case "german": 		vars.langID = "deu"; break;
-		case "french": 		vars.langID = "fra"; break;
-		case "italian": 	vars.langID = "ita"; break;
-		case "spanish": 	vars.langID = "esn"; break;
+		case "english"	: 	break;
+		case "german"	: 	vars.langID = "deu"; break;
+		case "french"	: 	vars.langID = "fra"; break;
+		case "italian"	: 	vars.langID = "ita"; break;
+		case "spanish"	: 	vars.langID = "esn"; break;
 		case "portguese":	vars.langID = "por"; break;
-		case "polish": 		vars.langID = "pol"; break;
-		case "japanese":	vars.langID = "jpn"; break;
-		default: 			vars.langID = "uns"; break;
+		case "polish"	: 	vars.langID = "pol"; break;
+		case "japanese"	:	vars.langID = "jpn"; break;
+		default			: 	vars.langID = "uns"; break;
 	}
 	print("[BSI-ASL] Lang: "+lang+" ("+vars.langID+")");
 	vars.checkpoints = new List<string>(121);
@@ -70,15 +70,16 @@ init
 	vars.delayedTime = null;
 	
 	//Prevent timer from starting automatically when opening the game
-	//if(timer.CurrentPhase==TimerPhase.NotRunning) Thread.Sleep(5000);
+	if(timer.CurrentPhase==TimerPhase.NotRunning) Thread.Sleep(5000);
 }
 
 start
 {
+	
 	current.cutsceneCount = 0;
 	current.respawning = false;
 	
-	return current.anyKey > 0 && current.afterLogo == 1 && old.afterLogo == 0;
+	return current.anyKey != 0 && current.afterLogo == 1 && old.afterLogo == 0;
 }
 
 isLoading
@@ -157,112 +158,60 @@ split
 {
 	if(vars.langID == "uns") return;
 	
-	//Baptised
-	if(settings["split1"] && timer.CurrentSplitIndex == 0 && (current.cutsceneCount == 100 + Convert.ToInt32(settings["split1.1"])))
+	switch(timer.CurrentSplitIndex)
 	{
-		current.cutsceneCount = 0;
-		return true;
-	}
-	//Comstock Center Rooftops
-	if(timer.CurrentSplitIndex == 1 && current.loadingScreenText == vars.checkpoints[2])
-	{
-		return true;
-	}
-	//Monument Tower
-	if(timer.CurrentSplitIndex == 2 && current.loadingScreenText == vars.checkpoints[4])
-	{
-		return true;
-	}
-	//Battleship Bay
-	if(timer.CurrentSplitIndex == 3 && current.loadingScreenText == vars.checkpoints[5])
-	{
-		return true;
-	}
-	//Soldiers Field
-	if(timer.CurrentSplitIndex == 4 && current.loadingScreenText == vars.checkpoints[6])
-	{
-		return true;
-	}
-	//Hall of Heroes
-	if(timer.CurrentSplitIndex == 5 && current.loadingScreenText == vars.checkpoints[7])
-	{
-		return true;
-	}
-	//Return to Soldiers Field
-	if(timer.CurrentSplitIndex == 6 && current.loadingScreenText == vars.checkpoints[108])
-	{
-		return true;
-	}
-	//Finkton Docks
-	if(timer.CurrentSplitIndex == 7 && current.loadingScreenText == vars.checkpoints[41])
-	{
-		return true;
-	}
-	//Worker Induction Center
-	if(timer.CurrentSplitIndex == 8 && current.loadingScreenText == vars.checkpoints[13])
-	{
-		return true;
-	}
-	//The Factory
-	if(timer.CurrentSplitIndex == 9 && current.loadingScreenText == vars.checkpoints[23])
-	{
-		return true;
-	}
-	//Emporia
-	if(timer.CurrentSplitIndex == 10 && current.loadingScreenText == vars.checkpoints[25])
-	{
-		return true;
-	}
-	//Downtown Emporia
-	if(timer.CurrentSplitIndex == 11 && current.loadingScreenText == vars.checkpoints[27])
-	{
-		return true;
-	}
-	//Comstock House
-	if(timer.CurrentSplitIndex == 12 && current.loadingScreenText == vars.checkpoints[29])
-	{
-		return true;
-	}
-	//The Hand Of The Prophet
-	if(timer.CurrentSplitIndex == 13 && current.loadingScreenText == vars.checkpoints[33])
-	{
-		return true;
-	}
-	//Engineering Deck
-	if(timer.CurrentSplitIndex == 14 && current.loadingScreenText == vars.checkpoints[35])
-	{
-		return true;
-	}
-	//Prophet's Cabin
-	if(settings["split2"] && timer.CurrentSplitIndex == 15 && current.cutsceneCount == 2)
-	{
-		current.cutsceneCount = 0;
-		return true;
-	}
-	//Final Fight
-	if(settings["split3"] && timer.CurrentSplitIndex == 16 && current.loadingScreenText == null && current.isMapLoading != -1)
-	{
-		current.cutsceneCount = 0;
-		return true;
-	}
-	//Smother
-	if(settings["split4"] && timer.CurrentSplitIndex == 17 && current.cutsceneCount == 16)
-	{
-		current.cutsceneCount = 0;
-		return true;
+		default	: break;
+		case 1	: //Comstock Center Rooftops
+			return current.loadingScreenText == vars.checkpoints[2];
+		case 2	: //Monument Tower
+			return current.loadingScreenText == vars.checkpoints[4];
+		case 3	: //Battleship Bay
+			return current.loadingScreenText == vars.checkpoints[5];
+		case 4	: //Soldiers Field
+			return current.loadingScreenText == vars.checkpoints[6];
+		case 5	: //Hall of Heroes
+			return current.loadingScreenText == vars.checkpoints[109];
+		case 6	: //Return to Hall of Heroes Plaza
+			return current.loadingScreenText == vars.checkpoints[10];
+		case 7	: //Finkton Docks
+			return current.loadingScreenText == vars.checkpoints[41];
+		case 8	: //Finkton Proper
+			return current.loadingScreenText == vars.checkpoints[114];
+		case 9	: //The Factory
+			return current.loadingScreenText == vars.checkpoints[24];
+		case 10	: //Emporia
+			return current.loadingScreenText == vars.checkpoints[25];
+		case 11	: //Downtown Emporia
+			return current.loadingScreenText == vars.checkpoints[27];
+		case 12	: //Comstock House
+			return current.loadingScreenText == vars.checkpoints[29];
+		case 13	: //The Hand Of The Prophet
+			return current.loadingScreenText == vars.checkpoints[33] || (current.loadingScreenText != null && current.loadingScreenText.Length == 2);
+		case 14	: //Engineering Deck
+			return current.loadingScreenText == vars.checkpoints[35];
+		case 0	: //Baptised
+		case 15	: //Prophet's Cabin
+		case 16	: //Final Fight
+		case 17	: //Smother
+			if( (settings["split1"] && timer.CurrentSplitIndex == 0 && current.cutsceneCount == 100 + Convert.ToInt32(settings["split1.1"]))||
+				(settings["split2"] && timer.CurrentSplitIndex == 15 && current.cutsceneCount == 2)||
+				(settings["split3"] && timer.CurrentSplitIndex == 16 && current.loadingScreenText == null && current.isMapLoading != -1)||
+				(settings["split4"] && timer.CurrentSplitIndex == 17 && current.cutsceneCount == 16))
+			{
+				current.cutsceneCount = 0;
+				return true;
+			}
+			else break;
 	}
 }
 
 update
-{
+{	
 	if(vars.langID != "uns" && settings.SplitEnabled){
 		
 		if(settings["split1"] && timer.CurrentSplitIndex == 0)
 		{
-			if(current.afterLogo == 0){
-				current.cutsceneCount = 0;
-				return;
-			}
+			if(current.afterLogo == 0){current.cutsceneCount = 0; return;}
 			
 			if(current.isMapLoading == -1 && current.playerState == 0 && old.playerState > 0){
 				current.cutsceneCount++;
@@ -285,7 +234,7 @@ update
 		if(settings["split4"] && timer.CurrentSplitIndex == 17 && current.loadingScreenText == null)
 		{
 			if(current.cutsceneCount == 10 && vars.delayedTime != null && timer.CurrentTime.RealTime.GetValueOrDefault() < vars.delayedTime){
-				print(timer.CurrentTime.RealTime+" | "+(timer.CurrentTime.RealTime + TimeSpan.FromSeconds(10)));
+				print("[BSI-ASL] cutsceneCount check delayed");
 				return;
 			}
 			
@@ -305,7 +254,7 @@ update
 }
 reset
 {
-	if(vars.langID == "uns"){return current.afterLogo == 0 && old.afterLogo == 1;}
-	else{return current.loadingScreenText == vars.checkpoints[38] && old.loadingScreenText == null;}
+	if(vars.langID == "uns") return current.afterLogo == 0 && old.afterLogo == 1;
+	return current.loadingScreenText == vars.checkpoints[38] && old.loadingScreenText == null;
 }
 exit{timer.IsGameTimePaused=true;}
