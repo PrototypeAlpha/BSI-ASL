@@ -13,12 +13,11 @@ state("BioshockInfinite")
 
 startup
 {
-	settings.Add("enable", 	true, 	"Enable Autosplitting (WIP)");
-	settings.Add("split1", 	true, 	"Autosplit 'Baptised'","enable");
+	settings.Add("split1", 	true, 	"Autosplit 'Baptised'");
 	settings.Add("split1.1",false, 	"Split at the door instead of the preacher","split1");
-	settings.Add("split2", 	true, 	"Autosplit 'Engineering Deck'","enable");
-	settings.Add("split3", 	true, 	"Autosplit 'Final Fight'","enable");
-	settings.Add("split4", 	true, 	"Autosplit 'Smother'","enable");
+	settings.Add("split2", 	true, 	"Autosplit 'Engineering Deck'");
+	settings.Add("split3", 	true, 	"Autosplit 'Final Fight'");
+	settings.Add("split4", 	true, 	"Autosplit 'Smother'");
 }
 
 init
