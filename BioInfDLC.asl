@@ -13,6 +13,7 @@ start
 
 isLoading
 {
+	if (timer.CurrentSplit.Name.ToLower().Contains("setup")) return true;
     /*
 	This is the variable used to track when map data is being loaded.
     This includes load screens and OOB load zones.
