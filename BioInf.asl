@@ -1,16 +1,22 @@
 state("BioshockInfinite")
 {
-	float isMapLoading :    0x14154E8, 0x4;
-	int overlaysPtr :       0x1415A30, 0x124;
-	int overlaysCount :     0x1415A30, 0x128;
-	byte afterLogo :		0x135697C;
-	byte anyKey :			0x13D2AA2;
+	float isMapLoading  : 0x14154E8, 0x4;
+	int   overlaysPtr   : 0x1415A30, 0x124;
+	int   overlaysCount : 0x1415A30, 0x128;
+	byte  afterLogo     : 0x135697C;
+	long  area          : 0x1423D18, 0x124, 0x1A4;
 }
 
-start
+state("BioshockInfinite", "Steam Current Patch")
 {
-	return current.anyKey > 0 && current.afterLogo == 1 && old.afterLogo == 0;
+	float isMapLoading  : 0x0FEC7C8, 0x4;
+	int   overlaysPtr   : 0x0FED290, 0x124;
+	int   overlaysCount : 0x0FED290, 0x128;
+	byte  afterLogo     : 0x0F30854;
+	long  area          : 0x1007160, 0x124, 0x1A4;
 }
+
+start{return current.area == 17179869188 && current.afterLogo == 1 && old.afterLogo == 0;}
 
 isLoading
 {
@@ -42,5 +48,14 @@ isLoading
 	return false;
 }
 
-init{timer.IsGameTimePaused=false;}
+init
+{
+	if(modules.First().ModuleMemorySize == 19197952)
+		version = "Steam Current Patch";
+	
+	timer.IsGameTimePaused=false;
+}
+
+reset{return current.afterLogo == 0 && old.afterLogo == 1;}
+
 exit{timer.IsGameTimePaused=true;}
