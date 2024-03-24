@@ -56,6 +56,6 @@ init
 	timer.IsGameTimePaused=false;
 }
 
-reset{return current.afterLogo == 0 && old.afterLogo == 1;}
+reset{return current.area == 17179869188 && current.afterLogo == 0 && old.afterLogo == 1;}
 
 exit{timer.IsGameTimePaused=true;}
