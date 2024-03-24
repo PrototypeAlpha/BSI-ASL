@@ -73,6 +73,10 @@ init
 	timer.IsGameTimePaused=false;
 }
 
-reset{return current.loadingScreen > 0 && old.segment < current.segment && (current.segment == 1500 || current.segment == 1546);}
+reset
+{
+	if(current.loadingScreen > 0 && old.segment < current.segment)
+		return (current.area == 128849018910 && current.segment == 1500) || (!timer.Run.CategoryName.ToLower().Contains("both") && current.area == 8589934594 && current.segment == 1546);
+}
 
 exit{timer.IsGameTimePaused=true;}
