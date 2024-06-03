@@ -48,11 +48,13 @@ isLoading
 		var namePtr = memory.ReadValue<int>(new IntPtr(overlayPtr));
 		var nameLen = memory.ReadValue<int>(new IntPtr(overlayPtr + 0x4)) - 1;
 		
-		if (nameLen != 0x36)
-			continue;            
+		if (nameLen != 0x36 && nameLen != 0x2A && nameLen != 0x26)
+			continue;
 		
 		var name = memory.ReadString(new IntPtr(namePtr), nameLen*2);
-		if (name == "GFXScriptReferenced.GameThreadLoadingScreen_Data_Oct22")
+		if(name.Contains("Loading"))
+			print(i + ". 0x" + nameLen.ToString("X2") + " " + name);
+		if (name == "GFXScriptReferenced.GameThreadLoadingScreen_Data_Oct22" || name == "DLCB_GFxMovieInfos.DLCB_LoadingScreen_Data" || name == "DLCC_GFxMovieInfos.XDLCC_LoadingScreen")
 			return true;
 		
 	}
